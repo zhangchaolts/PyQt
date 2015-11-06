@@ -15,7 +15,7 @@ py2exe_options = {
         }
  
 setup(
-      name = 'PyQt Demo',
+      name = 'PyQt Program',
       version = '1.0',
       windows = ['main.py',], 
       zipfile = None,

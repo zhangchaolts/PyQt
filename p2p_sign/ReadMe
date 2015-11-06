@@ -1,0 +1,4 @@
+使用py2exe打包时，依次执行如下两条命令（暂时不知道为什么需这样才能正常打包）
+
+1、python setup_first.py py2exe
+2、python setup_second.py py2exe
