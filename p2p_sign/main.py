@@ -238,12 +238,17 @@ class MyForm(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.pushButton_jrgc, QtCore.SIGNAL("clicked()"), self.exec_sign_jrgc)
         QtCore.QObject.connect(self.ui.pushButton_mxd, QtCore.SIGNAL("clicked()"), self.exec_sign_mxd)
 
+        # 临时
+        self.ui.pushButton_hrd.setEnabled(False)
+        self.ui.label_hrd.setText("网站限制程序访问，本程序暂不可用，请使用插件签到。".decode('gbk'))
+
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
         timestamp_expired_date = time.mktime(datetime.datetime.strptime("2015-12-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
         if timestamp_now_date >= timestamp_expired_date:
             self.ui.pushButton_yrw.setEnabled(False)
             self.ui.pushButton_gjs.setEnabled(False)
+            self.ui.pushButton_dtjr.setEnabled(False)
             self.ui.pushButton_hrd.setEnabled(False)
             self.ui.pushButton_jrgc.setEnabled(False)
             self.ui.pushButton_mxd.setEnabled(False)
