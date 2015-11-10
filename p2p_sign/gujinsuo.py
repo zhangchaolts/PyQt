@@ -6,7 +6,7 @@ import urllib2
 import cookielib
 import re
 import time,datetime
-import recognizer
+import recognizer_gjs.recognizer
 
 def sign(username, password):
 
@@ -31,12 +31,12 @@ def sign(username, password):
 		url = "https://www.gujinsuo.com.cn/login.html"
 		html = urllib2.urlopen(url).read()
 
-		fw = open('captcha.jpg', 'wb+')
+		fw = open('captcha_gjs.jpg', 'wb+')
 		content = urllib2.urlopen('https://www.gujinsuo.com.cn/auth/random?_=' + str(int(time.mktime(datetime.datetime.now().timetuple()))) + '000').read()
 		fw.write(content)
 		fw.close()
 
-		randcode = recognizer.recognize('captcha.jpg', 'pics_train')
+		randcode = recognizer_gjs.recognizer.recognize('captcha_gjs.jpg', 'pics_train_gjs')
 		#print "randcode:" + randcode
 
 		# Step2:µÇÂ¼
