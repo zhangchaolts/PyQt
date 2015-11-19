@@ -9,6 +9,7 @@ import dangtianjinrong
 import huirendai
 import minxindai
 import jinronggongchang
+import multiprocessing
 
 # 当天金融签到线程类
 class DangtianjinrongThread(QtCore.QThread):
@@ -332,6 +333,8 @@ if __name__ == "__main__":
 
     reload(sys)
     sys.setdefaultencoding("gbk")
+
+    multiprocessing.freeze_support()
 
     app = QtGui.QApplication(sys.argv)
     myapp = MyForm()

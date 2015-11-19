@@ -144,7 +144,7 @@ if __name__ == '__main__':
 
 	reload(sys)
 	sys.setdefaultencoding("gbk")
-
+        
 	print "\n¡¾" + datetime.datetime.now().strftime("%Y-%m-%d") + "¡¿";
     
 	account_list = []
