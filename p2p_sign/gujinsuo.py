@@ -7,8 +7,10 @@ import cookielib
 import re
 import time,datetime
 import recognizer_gjs.recognizer
+import string
+import multiprocessing
 
-def sign(username, password):
+def sign(queue, line_ptr, username, password):
 
 	# 获取Cookiejar对象（存在本机的cookie消息）
 	cj = cookielib.CookieJar()
@@ -17,8 +19,7 @@ def sign(username, password):
 	# 安装opener,此后调用urlopen()时都会使用安装过的opener对象
 	urllib2.install_opener(opener)
 
-	#print "用户 " + username + " 进行中..."
-	#print "开始登陆..."
+	print username + " start ..."
 
 	is_logined = False
 	try_times = 0
@@ -31,13 +32,13 @@ def sign(username, password):
 		url = "https://www.gujinsuo.com.cn/login.html"
 		html = urllib2.urlopen(url).read()
 
-		fw = open('captcha_gjs.jpg', 'wb+')
+		fw = open('pics_captcha_gjs/' + str(line_ptr) + '.jpg', 'wb+')
 		content = urllib2.urlopen('https://www.gujinsuo.com.cn/auth/random?_=' + str(int(time.mktime(datetime.datetime.now().timetuple()))) + '000').read()
 		fw.write(content)
 		fw.close()
 
-		randcode = recognizer_gjs.recognizer.recognize('captcha_gjs.jpg', 'pics_train_gjs')
-		#print "randcode:" + randcode
+		randcode = recognizer_gjs.recognizer.recognize('pics_captcha_gjs/' + str(line_ptr) + '.jpg', 'pics_train_gjs')
+		print "(" + str(line_ptr) + "," + str(try_times) + ") " + "randcode:" + randcode
 
 		# Step2:登录
 		login_url = "https://www.gujinsuo.com.cn/login"
@@ -46,6 +47,7 @@ def sign(username, password):
 						"password": password, \
 						"randcode": randcode \
 					}
+		print login_data
 
 		login_post_data = urllib.urlencode(login_data) 
 
@@ -68,7 +70,9 @@ def sign(username, password):
 			login_info = login_anwser.group(1)
 			if login_info.find("您已成功登录本系统!") != False and login_info.find("验证码输入错误!") != False and login_info.find("请输入验证码!") != False:
 				#print login_info + "\n"
-				return "登录失败！"
+				result = "登录失败！"
+				queue.put(str(line_ptr) + " " + result)
+				return
 
 		homepage_url = "https://www.gujinsuo.com.cn/member/main.html";
 		homepage_html = urllib2.urlopen(homepage_url).read().decode('utf8').encode('gb18030')
@@ -84,8 +88,10 @@ def sign(username, password):
 
 	if is_logined == False:
 		#print "尝试20次都登陆失败，程序无能为力了，大侠还是手动签到吧~\n"
-		return "登录失败：尝试20次都登陆失败！"
-
+		result = "登录失败：尝试20次都登陆失败！"
+		queue.put(str(line_ptr) + " " + result)
+		return
+	
 	#print "开始签到..." 
 
 	# Step3:签到
@@ -115,26 +121,48 @@ def sign(username, password):
 		result2 = "总红包为" + totalPopularity + "。"
 
 	result = result1 + result2
-	return result
+	print username + " " + result
+	queue.put(str(line_ptr) + " " + result)
+	return
+
+
+def get_status_list(queue):
+    status_list = [None] * queue.qsize()
+    while queue.empty() != True:
+        parts = queue.get().split(" ")
+        if len(parts) == 2:
+            ptr = string.atoi(parts[0])
+            status_list[ptr] = parts[1]
+    return status_list
+
+
+def sign_all(account_list):
+    queue = multiprocessing.Queue()
+    jobs = []
+    for i in xrange(len(account_list)):
+        job = multiprocessing.Process(target=sign, args=(queue, i, account_list[i][0], account_list[i][1]))
+        jobs.append(job)
+        job.start()
+    for job in jobs:
+        job.join()
+    return get_status_list(queue)
+
 
 if __name__ == '__main__':
 
-	reload(sys)
-	sys.setdefaultencoding("gbk")
+    reload(sys)
+    sys.setdefaultencoding("gbk")
 
-	username_array = []
-	password_array = []
+    print "\n【" + datetime.datetime.now().strftime("%Y-%m-%d") + "】";
+    
+    account_list = []
+    for line in file("固金所账号密码.txt"):
+        line = line.strip()
+        parts = line.split(" ")
+        if len(parts) == 2:
+            account_list.append([parts[0], parts[1]])
 
-	for line in file("固金所账号密码.txt"):
-		line = line.strip()
-		parts = line.split(" ")
-		if len(parts) == 2:
-			username_array.append(parts[0])
-			password_array.append(parts[1])
+    status_list = sign_all(account_list)
 
-	print "\n【" + datetime.datetime.now().strftime("%Y-%m-%d") + "】";
-
-	for i in range(len(username_array)):
-		result = sign(username_array[i], password_array[i])
-		print username_array[i] + ":" + result + "\n"
- 
+    for status in status_list:
+        print status.encode('gbk')

@@ -10,29 +10,25 @@ import huirendai
 import minxindai
 import jinronggongchang
 
-# 有融网签到线程类
-class YourongwangThread(QtCore.QThread):
+# 当天金融签到线程类
+class DangtianjinrongThread(QtCore.QThread):
 
-    signal_yrw = QtCore.pyqtSignal(int, str)
-    signal_finished_yrw = QtCore.pyqtSignal()
+    signal_dtjr = QtCore.pyqtSignal(int, str)
+    signal_finished_dtjr = QtCore.pyqtSignal()
     
     def __init__(self,parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
         
     def setAccountList(self, accountList):
         self.accountList = accountList
     
     def run(self):
-        line_ptr = 0
-        for [username,password] in self.accountList:
-            self.signal_yrw.emit(line_ptr, '签到中...'.decode('gbk'))
-            status = yourongwang.sign(username, password)
-            status = status.decode('gbk')
-            self.signal_yrw.emit(line_ptr, status)
-            line_ptr += 1
-        self.signal_finished_yrw.emit()
+        for i in xrange(len(self.accountList)):
+            self.signal_dtjr.emit(i, '签到中...'.decode('gbk'))
+        status_list = dangtianjinrong.sign_all(self.accountList)
+        for i in xrange(len(status_list)):
+            self.signal_dtjr.emit(i, status_list[i].decode('gbk'))
+        self.signal_finished_dtjr.emit()
 
 # 固金所签到线程类
 class GujinsuoThread(QtCore.QThread):
@@ -42,69 +38,37 @@ class GujinsuoThread(QtCore.QThread):
     
     def __init__(self,parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
         
     def setAccountList(self, accountList):
         self.accountList = accountList
     
     def run(self):
-        line_ptr = 0
-        for [username,password] in self.accountList:
-            self.signal_gjs.emit(line_ptr, '签到中...'.decode('gbk'))
-            status = gujinsuo.sign(username, password)
-            status = status.decode('gbk')
-            self.signal_gjs.emit(line_ptr, status)
-            line_ptr += 1
+        for i in xrange(len(self.accountList)):
+            self.signal_gjs.emit(i, '签到中...'.decode('gbk'))
+        status_list = gujinsuo.sign_all(self.accountList)
+        for i in xrange(len(status_list)):
+            self.signal_gjs.emit(i, status_list[i].decode('gbk'))
         self.signal_finished_gjs.emit()
 
-# 当天金融签到线程类
-class DangtianjinrongThread(QtCore.QThread):
+# 有融网签到线程类
+class YourongwangThread(QtCore.QThread):
 
-    signal_dtjr = QtCore.pyqtSignal(int, str)
-    signal_finished_dtjr = QtCore.pyqtSignal()
+    signal_yrw = QtCore.pyqtSignal(int, str)
+    signal_finished_yrw = QtCore.pyqtSignal()
     
     def __init__(self,parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
         
     def setAccountList(self, accountList):
         self.accountList = accountList
     
     def run(self):
-        line_ptr = 0
-        for [username,password] in self.accountList:
-            self.signal_dtjr.emit(line_ptr, '签到中...'.decode('gbk'))
-            status = dangtianjinrong.sign(username, password)
-            status = status.decode('gbk')
-            self.signal_dtjr.emit(line_ptr, status)
-            line_ptr += 1
-        self.signal_finished_dtjr.emit()
-
-# 惠人贷签到线程类
-class HuirendaiThread(QtCore.QThread):
-
-    signal_hrd = QtCore.pyqtSignal(int, str)
-    signal_finished_hrd = QtCore.pyqtSignal()
-    
-    def __init__(self,parent=None):
-        QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
-        
-    def setAccountList(self, accountList):
-        self.accountList = accountList
-    
-    def run(self):
-        line_ptr = 0
-        for [username,password] in self.accountList:
-            self.signal_hrd.emit(line_ptr, '签到中...'.decode('gbk'))
-            status = huirendai.sign(username, password)
-            status = status.decode('gbk')
-            self.signal_hrd.emit(line_ptr, status)
-            line_ptr += 1
-        self.signal_finished_hrd.emit()
+        for i in xrange(len(self.accountList)):
+            self.signal_yrw.emit(i, '签到中...'.decode('gbk'))
+        status_list = yourongwang.sign_all(self.accountList)
+        for i in xrange(len(status_list)):
+            self.signal_yrw.emit(i, status_list[i].decode('gbk'))
+        self.signal_finished_yrw.emit()
 
 # 金融工场签到线程类
 class JinronggongchangThread(QtCore.QThread):
@@ -114,20 +78,16 @@ class JinronggongchangThread(QtCore.QThread):
     
     def __init__(self,parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
         
     def setAccountList(self, accountList):
         self.accountList = accountList
     
     def run(self):
-        line_ptr = 0
-        for [username,password] in self.accountList:
-            self.signal_jrgc.emit(line_ptr, '签到中...'.decode('gbk'))
-            status = jinronggongchang.sign(username, password)
-            status = status.decode('gbk')
-            self.signal_jrgc.emit(line_ptr, status)
-            line_ptr += 1
+        for i in xrange(len(self.accountList)):
+            self.signal_jrgc.emit(i, '签到中...'.decode('gbk'))
+        status_list = jinronggongchang.sign_all(self.accountList)
+        for i in xrange(len(status_list)):
+            self.signal_jrgc.emit(i, status_list[i].decode('gbk'))
         self.signal_finished_jrgc.emit()
 
 # 民信贷签到线程类
@@ -169,30 +129,11 @@ class MyForm(QtGui.QMainWindow):
         self.ui = Ui_Form()
         self.ui.setupUi(self)
 
-        self.account_list_yrw = self.read_account("有融网账号密码.txt")
-        self.account_list_gjs = self.read_account("固金所账号密码.txt")
         self.account_list_dtjr = self.read_account("当天金融账号密码.txt")
-        self.account_list_hrd = self.read_account("惠人贷账号密码.txt")
+        self.account_list_gjs = self.read_account("固金所账号密码.txt")
+        self.account_list_yrw = self.read_account("有融网账号密码.txt")      
         self.account_list_jrgc = self.read_account("金融工场账号密码.txt")
         self.account_list_mxd = self.read_account("民信贷账号密码.txt")
-
-        # 有融网账号密码加载
-        self.ui.treeWidget_yrw.setColumnWidth(0,150)
-        self.ui.treeWidget_yrw.setColumnWidth(1,120)
-        self.ui.treeWidget_yrw.setColumnWidth(2,350)
-        for account in self.account_list_yrw:
-            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_yrw)
-            a.setText(0, account[0])
-            a.setText(1, account[1][0]+"*******")
-
-        # 固金所账号密码加载
-        self.ui.treeWidget_gjs.setColumnWidth(0,150)
-        self.ui.treeWidget_gjs.setColumnWidth(1,120)
-        self.ui.treeWidget_gjs.setColumnWidth(2,350)
-        for account in self.account_list_gjs:
-            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_gjs)
-            a.setText(0, account[0])
-            a.setText(1, account[1][0]+"*******")
 
         # 当天金融账号密码加载
         self.ui.treeWidget_dtjr.setColumnWidth(0,150)
@@ -202,13 +143,22 @@ class MyForm(QtGui.QMainWindow):
             a = QtGui.QTreeWidgetItem(self.ui.treeWidget_dtjr)
             a.setText(0, account[0])
             a.setText(1, account[1][0]+"*******")
-
-        # 惠人贷账号密码加载
-        self.ui.treeWidget_hrd.setColumnWidth(0,150)
-        self.ui.treeWidget_hrd.setColumnWidth(1,120)
-        self.ui.treeWidget_hrd.setColumnWidth(2,350)
-        for account in self.account_list_hrd:
-            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_hrd)
+            
+        # 固金所账号密码加载
+        self.ui.treeWidget_gjs.setColumnWidth(0,150)
+        self.ui.treeWidget_gjs.setColumnWidth(1,120)
+        self.ui.treeWidget_gjs.setColumnWidth(2,350)
+        for account in self.account_list_gjs:
+            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_gjs)
+            a.setText(0, account[0])
+            a.setText(1, account[1][0]+"*******")
+            
+        # 有融网账号密码加载
+        self.ui.treeWidget_yrw.setColumnWidth(0,150)
+        self.ui.treeWidget_yrw.setColumnWidth(1,120)
+        self.ui.treeWidget_yrw.setColumnWidth(2,350)
+        for account in self.account_list_yrw:
+            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_yrw)
             a.setText(0, account[0])
             a.setText(1, account[1][0]+"*******")
 
@@ -231,31 +181,24 @@ class MyForm(QtGui.QMainWindow):
             a.setText(1, account[1][0]+"*******")
 
         # 连接
-        QtCore.QObject.connect(self.ui.pushButton_yrw, QtCore.SIGNAL("clicked()"), self.exec_sign_yrw)
-        QtCore.QObject.connect(self.ui.pushButton_gjs, QtCore.SIGNAL("clicked()"), self.exec_sign_gjs)
         QtCore.QObject.connect(self.ui.pushButton_dtjr, QtCore.SIGNAL("clicked()"), self.exec_sign_dtjr)
-        QtCore.QObject.connect(self.ui.pushButton_hrd, QtCore.SIGNAL("clicked()"), self.exec_sign_hrd)
+        QtCore.QObject.connect(self.ui.pushButton_gjs, QtCore.SIGNAL("clicked()"), self.exec_sign_gjs)
+        QtCore.QObject.connect(self.ui.pushButton_yrw, QtCore.SIGNAL("clicked()"), self.exec_sign_yrw)
         QtCore.QObject.connect(self.ui.pushButton_jrgc, QtCore.SIGNAL("clicked()"), self.exec_sign_jrgc)
         QtCore.QObject.connect(self.ui.pushButton_mxd, QtCore.SIGNAL("clicked()"), self.exec_sign_mxd)
-
-        # 临时
-        self.ui.pushButton_hrd.setEnabled(False)
-        self.ui.label_hrd.setText("网站限制程序访问，本程序暂不可用，请使用插件签到。".decode('gbk'))
 
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
         timestamp_expired_date = time.mktime(datetime.datetime.strptime("2015-12-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
         if timestamp_now_date >= timestamp_expired_date:
-            self.ui.pushButton_yrw.setEnabled(False)
-            self.ui.pushButton_gjs.setEnabled(False)
             self.ui.pushButton_dtjr.setEnabled(False)
-            self.ui.pushButton_hrd.setEnabled(False)
+            self.ui.pushButton_gjs.setEnabled(False)
+            self.ui.pushButton_yrw.setEnabled(False)
             self.ui.pushButton_jrgc.setEnabled(False)
             self.ui.pushButton_mxd.setEnabled(False)
-            self.ui.label_yrw.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
-            self.ui.label_gjs.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
             self.ui.label_dtjr.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
-            self.ui.label_hrd.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
+            self.ui.label_gjs.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
+            self.ui.label_yrw.setText("程序已经过期，请到群共享中下载！".decode('gbk'))   
             self.ui.label_jrgc.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
             self.ui.label_mxd.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
 
@@ -268,52 +211,6 @@ class MyForm(QtGui.QMainWindow):
             if len(parts) == 2:
                 list.append([parts[0], parts[1]])
         return list
-
-    # 有融网签到    
-    def exec_sign_yrw(self):
-        self.ui.pushButton_yrw.setText("签到中...".decode('gbk'))
-        self.ui.pushButton_yrw.setEnabled(False)
-        self.ui.treeWidget_yrw.repaint()
-        self.thread_yrw = YourongwangThread()
-        self.thread_yrw.setAccountList(self.account_list_yrw)
-        self.thread_yrw.signal_yrw.connect(self.add_status_for_yrw)
-        self.thread_yrw.signal_finished_yrw.connect(self.change_button_yrw)
-        self.thread_yrw.start()
-
-    def add_status_for_yrw(self, line_ptr, status):
-        ptr = 0
-        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_yrw)
-        while it.value():
-            if ptr == line_ptr:
-                it.value().setText(2, status)
-            ptr += 1
-            it += 1
-
-    def change_button_yrw(self):
-        self.ui.pushButton_yrw.setText("签到完毕".decode('gbk'))
-        
-    # 固金所签到
-    def exec_sign_gjs(self):
-        self.ui.pushButton_gjs.setText("签到中...".decode('gbk'))
-        self.ui.pushButton_gjs.setEnabled(False)
-        self.ui.treeWidget_gjs.repaint()
-        self.thread_gjs = GujinsuoThread()
-        self.thread_gjs.setAccountList(self.account_list_gjs)
-        self.thread_gjs.signal_gjs.connect(self.add_status_for_gjs)
-        self.thread_gjs.signal_finished_gjs.connect(self.change_button_gjs)
-        self.thread_gjs.start()
-
-    def add_status_for_gjs(self, line_ptr, status):
-        ptr = 0
-        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_gjs)
-        while it.value():
-            if ptr == line_ptr:
-                it.value().setText(2, status)
-            ptr += 1
-            it += 1
-
-    def change_button_gjs(self):
-        self.ui.pushButton_gjs.setText("签到完毕".decode('gbk'))
 
     # 当天金融签到
     def exec_sign_dtjr(self):
@@ -337,30 +234,53 @@ class MyForm(QtGui.QMainWindow):
 
     def change_button_dtjr(self):
         self.ui.pushButton_dtjr.setText("签到完毕".decode('gbk'))
-            
-    # 惠人贷签到      
-    def exec_sign_hrd(self):
-        self.ui.pushButton_hrd.setText("签到中...".decode('gbk'))
-        self.ui.pushButton_hrd.setEnabled(False)
-        self.ui.treeWidget_hrd.repaint()
-        self.thread_hrd = HuirendaiThread()
-        self.thread_hrd.setAccountList(self.account_list_hrd)
-        self.thread_hrd.signal_hrd.connect(self.add_status_for_hrd)
-        self.thread_hrd.signal_finished_hrd.connect(self.change_button_hrd)
-        self.thread_hrd.start()
+        
+    # 固金所签到
+    def exec_sign_gjs(self):
+        self.ui.pushButton_gjs.setText("签到中...".decode('gbk'))
+        self.ui.pushButton_gjs.setEnabled(False)
+        self.ui.treeWidget_gjs.repaint()
+        self.thread_gjs = GujinsuoThread()
+        self.thread_gjs.setAccountList(self.account_list_gjs)
+        self.thread_gjs.signal_gjs.connect(self.add_status_for_gjs)
+        self.thread_gjs.signal_finished_gjs.connect(self.change_button_gjs)
+        self.thread_gjs.start()
 
-    def add_status_for_hrd(self, line_ptr, status):
+    def add_status_for_gjs(self, line_ptr, status):
         ptr = 0
-        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_hrd)
+        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_gjs)
         while it.value():
             if ptr == line_ptr:
                 it.value().setText(2, status)
             ptr += 1
             it += 1
 
-    def change_button_hrd(self):
-        self.ui.pushButton_hrd.setText("签到完毕".decode('gbk'))
+    def change_button_gjs(self):
+        self.ui.pushButton_gjs.setText("签到完毕".decode('gbk'))
+        
+    # 有融网签到    
+    def exec_sign_yrw(self):
+        self.ui.pushButton_yrw.setText("签到中...".decode('gbk'))
+        self.ui.pushButton_yrw.setEnabled(False)
+        self.ui.treeWidget_yrw.repaint()
+        self.thread_yrw = YourongwangThread()
+        self.thread_yrw.setAccountList(self.account_list_yrw)
+        self.thread_yrw.signal_yrw.connect(self.add_status_for_yrw)
+        self.thread_yrw.signal_finished_yrw.connect(self.change_button_yrw)
+        self.thread_yrw.start()
 
+    def add_status_for_yrw(self, line_ptr, status):
+        ptr = 0
+        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_yrw)
+        while it.value():
+            if ptr == line_ptr:
+                it.value().setText(2, status)
+            ptr += 1
+            it += 1
+
+    def change_button_yrw(self):
+        self.ui.pushButton_yrw.setText("签到完毕".decode('gbk'))
+        
     # 金融工场签到     
     def exec_sign_jrgc(self):
         self.ui.pushButton_jrgc.setText("签到中...".decode('gbk'))
@@ -383,7 +303,7 @@ class MyForm(QtGui.QMainWindow):
 
     def change_button_jrgc(self):
         self.ui.pushButton_jrgc.setText("签到完毕".decode('gbk'))
-
+ 
     # 民信贷签到
     def exec_sign_mxd(self):
         self.ui.pushButton_mxd.setText("签到中...".decode('gbk'))
@@ -412,7 +332,7 @@ if __name__ == "__main__":
 
     reload(sys)
     sys.setdefaultencoding("gbk")
-    
+
     app = QtGui.QApplication(sys.argv)
     myapp = MyForm()
     myapp.show()

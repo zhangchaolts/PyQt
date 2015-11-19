@@ -25,11 +25,24 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
-   <widget class="QWidget" name="tab_yrw">
+   <widget class="QWidget" name="tab_dtjr">
     <attribute name="title">
-     <string>有融网</string>
+     <string>当天金融</string>
     </attribute>
-    <widget class="QTreeWidget" name="treeWidget_yrw">
+    <widget class="QPushButton" name="pushButton_dtjr">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>签到</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="treeWidget_dtjr">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -54,20 +67,7 @@
       </property>
      </column>
     </widget>
-    <widget class="QPushButton" name="pushButton_yrw">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>签到</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_yrw">
+    <widget class="QLabel" name="label_dtjr">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -137,24 +137,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_dtjr">
+   <widget class="QWidget" name="tab_yrw">
     <attribute name="title">
-     <string>当天金融</string>
+     <string>有融网</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_dtjr">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>签到</string>
-     </property>
-    </widget>
-    <widget class="QTreeWidget" name="treeWidget_dtjr">
+    <widget class="QTreeWidget" name="treeWidget_yrw">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -179,7 +166,20 @@
       </property>
      </column>
     </widget>
-    <widget class="QLabel" name="label_dtjr">
+    <widget class="QPushButton" name="pushButton_yrw">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>签到</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_yrw">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -292,62 +292,6 @@
      </property>
     </widget>
     <widget class="QLabel" name="label_mxd">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>431</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_hrd">
-    <attribute name="title">
-     <string>惠人贷</string>
-    </attribute>
-    <widget class="QTreeWidget" name="treeWidget_hrd">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>681</width>
-       <height>271</height>
-      </rect>
-     </property>
-     <column>
-      <property name="text">
-       <string>账号</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>密码</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>状态</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QPushButton" name="pushButton_hrd">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>签到</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_hrd">
      <property name="geometry">
       <rect>
        <x>140</x>

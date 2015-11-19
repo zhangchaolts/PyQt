@@ -6,8 +6,10 @@ import urllib2
 import cookielib
 import re
 import time,datetime
+import string
+import multiprocessing
 
-def sign(username, password):
+def sign(queue, line_ptr, username, password):
 
 	# 获取Cookiejar对象（存在本机的cookie消息）
 	cj = cookielib.CookieJar()
@@ -15,6 +17,8 @@ def sign(username, password):
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 	# 安装opener,此后调用urlopen()时都会使用安装过的opener对象
 	urllib2.install_opener(opener)
+
+	print username + " start ..."
 
 	# Step1:获取token
 	token_url = 'https://passport.9888.cn/passport/login'
@@ -26,7 +30,9 @@ def sign(username, password):
 		xToken = token_anwser.group(1)
 		#print xToken
 	else:
-		return "登录失败：获取token失败！"
+		result = "登录失败：获取token失败！"
+		queue.put(str(line_ptr) + " " + result)
+		return
 
 	# Step2:登录
 	login_url = "https://passport.9888.cn/passport/login"
@@ -59,7 +65,9 @@ def sign(username, password):
 	login_response = opener.open(login_request).read()
 	#print login_response
 	if login_response.find("http://www.9888.cn?islogin=true&pc=1") == -1:
-		return "登录失败！"
+		result = "登录失败！"
+		queue.put(str(line_ptr) + " " + result)
+		return
 
 	#非得打开这个网页才能正常签到
 	homepage_url = "http://www.9888.cn/account/home.shtml";
@@ -104,27 +112,49 @@ def sign(username, password):
 		totalPopularity = sign_anwser.group(1)
 		result2 = "总工豆为" + totalPopularity + "。"
 
-
 	result = result1 + result2 + result3
-	return result
+	print username + " " + result
+	queue.put(str(line_ptr) + " " + result)
+	return
+
+
+def get_status_list(queue):
+	status_list = [None] * queue.qsize()
+	while queue.empty() != True:
+		parts = queue.get().split(" ")
+		if len(parts) == 2:
+			ptr = string.atoi(parts[0])
+			status_list[ptr] = parts[1]
+	return status_list
+
+
+def sign_all(account_list):
+	queue = multiprocessing.Queue()
+	jobs = []
+	for i in xrange(len(account_list)):
+		job = multiprocessing.Process(target=sign, args=(queue, i, account_list[i][0], account_list[i][1]))
+		jobs.append(job)
+		job.start()
+	for job in jobs:
+		job.join()
+	return get_status_list(queue)
+
 
 if __name__ == '__main__':
 
 	reload(sys)
 	sys.setdefaultencoding("gbk")
 
-	username_array = []
-	password_array = []
-
+	print "\n【" + datetime.datetime.now().strftime("%Y-%m-%d") + "】";
+    
+	account_list = []
 	for line in file("金融工场账号密码.txt"):
 		line = line.strip()
 		parts = line.split(" ")
 		if len(parts) == 2:
-			username_array.append(parts[0])
-			password_array.append(parts[1])
+			account_list.append([parts[0], parts[1]])
 
-	print "\n【" + datetime.datetime.now().strftime("%Y-%m-%d") + "】";
- 
-	for i in range(len(username_array)):
-		result = sign(username_array[i], password_array[i])
-		print username_array[i] + ":" + result
+	status_list = sign_all(account_list)
+
+	for status in status_list:
+		print status.encode('gbk')
