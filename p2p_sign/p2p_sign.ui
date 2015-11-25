@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>719</width>
-    <height>356</height>
+    <width>721</width>
+    <height>351</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -302,6 +302,101 @@
      </property>
      <property name="text">
       <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_wxlc">
+    <attribute name="title">
+     <string>网信理财</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_wxlc_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>投标(小于7天)</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="treeWidget_wxlc">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>681</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>账号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>密码</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>状态</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QPushButton" name="pushButton_wxlc_10">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>10</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>投标(小于10天)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_wxlc_15">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>10</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>投标(小于15天)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_wxlc_30">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>10</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>投标(小于30天)</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_wxlc_shuhui">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>10</y>
+       <width>91</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>赎回通知贷</string>
      </property>
     </widget>
    </widget>

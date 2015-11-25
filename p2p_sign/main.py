@@ -9,6 +9,7 @@ import dangtianjinrong
 import huirendai
 import minxindai
 import jinronggongchang
+import wangxinlicai_bid
 import multiprocessing
 
 # 当天金融签到线程类
@@ -99,8 +100,6 @@ class MinxindaiThread(QtCore.QThread):
     
     def __init__(self,parent=None):
         QtCore.QThread.__init__(self, parent)
-        self.usernameList = None
-        self.passwordList = None
         
     def setAccountList(self, accountList):
         self.accountList = accountList
@@ -114,6 +113,32 @@ class MinxindaiThread(QtCore.QThread):
             self.signal_mxd.emit(line_ptr, status)
             line_ptr += 1
         self.signal_finished_mxd.emit()
+
+# 网信理财签到线程类
+class WangxinlicaiThread(QtCore.QThread):
+
+    signal_wxlc = QtCore.pyqtSignal(int, str)
+    signal_finished_wxlc = QtCore.pyqtSignal()
+    
+    def __init__(self,parent=None):
+        QtCore.QThread.__init__(self, parent)
+        
+    def setAccountList(self, accountList):
+        self.accountList = accountList
+
+    def setInvestDaysIsShuhui(self, investDays, isShuhui):
+        self.investDays = investDays
+        self.isShuhui = isShuhui
+    
+    def run(self):
+        line_ptr = 0
+        for [username,password] in self.accountList:
+            self.signal_wxlc.emit(line_ptr, '进行中...'.decode('gbk'))
+            status = wangxinlicai_bid.bid(username, password, self.investDays, self.isShuhui)
+            status = status.decode('gbk')
+            self.signal_wxlc.emit(line_ptr, status)
+            line_ptr += 1
+        self.signal_finished_wxlc.emit()
 
 # 主框架
 class MyForm(QtGui.QMainWindow):
@@ -135,6 +160,7 @@ class MyForm(QtGui.QMainWindow):
         self.account_list_yrw = self.read_account("有融网账号密码.txt")      
         self.account_list_jrgc = self.read_account("金融工场账号密码.txt")
         self.account_list_mxd = self.read_account("民信贷账号密码.txt")
+        self.account_list_wxlc = self.read_account("网信理财账号密码.txt")
 
         # 当天金融账号密码加载
         self.ui.treeWidget_dtjr.setColumnWidth(0,150)
@@ -181,12 +207,26 @@ class MyForm(QtGui.QMainWindow):
             a.setText(0, account[0])
             a.setText(1, account[1][0]+"*******")
 
+        # 网信理财账号密码加载
+        self.ui.treeWidget_wxlc.setColumnWidth(0,150)
+        self.ui.treeWidget_wxlc.setColumnWidth(1,120)
+        self.ui.treeWidget_wxlc.setColumnWidth(2,350)
+        for account in self.account_list_wxlc:
+            a = QtGui.QTreeWidgetItem(self.ui.treeWidget_wxlc)
+            a.setText(0, account[0])
+            a.setText(1, account[1][0]+"*******")
+
         # 连接
         QtCore.QObject.connect(self.ui.pushButton_dtjr, QtCore.SIGNAL("clicked()"), self.exec_sign_dtjr)
         QtCore.QObject.connect(self.ui.pushButton_gjs, QtCore.SIGNAL("clicked()"), self.exec_sign_gjs)
         QtCore.QObject.connect(self.ui.pushButton_yrw, QtCore.SIGNAL("clicked()"), self.exec_sign_yrw)
         QtCore.QObject.connect(self.ui.pushButton_jrgc, QtCore.SIGNAL("clicked()"), self.exec_sign_jrgc)
         QtCore.QObject.connect(self.ui.pushButton_mxd, QtCore.SIGNAL("clicked()"), self.exec_sign_mxd)
+        QtCore.QObject.connect(self.ui.pushButton_wxlc_7, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_7)
+        QtCore.QObject.connect(self.ui.pushButton_wxlc_10, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_10)
+        QtCore.QObject.connect(self.ui.pushButton_wxlc_15, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_15)
+        QtCore.QObject.connect(self.ui.pushButton_wxlc_30, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_30)
+        QtCore.QObject.connect(self.ui.pushButton_wxlc_shuhui, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_shuhui)
 
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
@@ -197,6 +237,11 @@ class MyForm(QtGui.QMainWindow):
             self.ui.pushButton_yrw.setEnabled(False)
             self.ui.pushButton_jrgc.setEnabled(False)
             self.ui.pushButton_mxd.setEnabled(False)
+            self.ui.pushButton_wxlc_7.setEnabled(False)
+            self.ui.pushButton_wxlc_10.setEnabled(False)
+            self.ui.pushButton_wxlc_15.setEnabled(False)
+            self.ui.pushButton_wxlc_30.setEnabled(False)
+            self.ui.pushButton_wxlc_shuhui.setEnabled(False)
             self.ui.label_dtjr.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
             self.ui.label_gjs.setText("程序已经过期，请到群共享中下载！".decode('gbk'))
             self.ui.label_yrw.setText("程序已经过期，请到群共享中下载！".decode('gbk'))   
@@ -324,9 +369,70 @@ class MyForm(QtGui.QMainWindow):
                 it.value().setText(2, status)
             ptr += 1
             it += 1
-        
-    def change_button_mxd(self):
-        self.ui.pushButton_mxd.setText("签到完毕".decode('gbk'))
+
+    # 网信理财投标
+    def exec_sign_wxlc_7(self):
+        self.change_all_button_status_wxlc(False)
+        self.ui.treeWidget_wxlc.repaint()
+        investDays = 7
+        isShuhui = 'no'
+        self.exec_sign_wxlc(investDays, isShuhui)
+
+    def exec_sign_wxlc_10(self):
+        self.change_all_button_status_wxlc(False)
+        self.ui.treeWidget_wxlc.repaint()
+        investDays = 10
+        isShuhui = 'no'
+        self.exec_sign_wxlc(investDays, isShuhui)
+
+    def exec_sign_wxlc_15(self):
+        self.change_all_button_status_wxlc(False)
+        self.ui.treeWidget_wxlc.repaint()
+        investDays = 15
+        isShuhui = 'no'
+        self.exec_sign_wxlc(investDays, isShuhui)
+
+    def exec_sign_wxlc_30(self):
+        self.change_all_button_status_wxlc(False)
+        self.ui.treeWidget_wxlc.repaint()
+        investDays = 30
+        isShuhui = 'no'
+        self.exec_sign_wxlc(investDays, isShuhui)
+
+    def exec_sign_wxlc_shuhui(self):
+        self.change_all_button_status_wxlc(False)
+        self.ui.treeWidget_wxlc.repaint()
+        investDays = 0
+        isShuhui = 'yes'
+        self.exec_sign_wxlc(investDays, isShuhui)
+
+    def change_all_button_status_wxlc(self, status):
+        self.ui.pushButton_wxlc_7.setEnabled(status)
+        self.ui.pushButton_wxlc_10.setEnabled(status)
+        self.ui.pushButton_wxlc_15.setEnabled(status)
+        self.ui.pushButton_wxlc_30.setEnabled(status)
+        self.ui.pushButton_wxlc_shuhui.setEnabled(status)
+
+    def exec_sign_wxlc(self, investDays, isShuhui):
+        self.thread_wxlc = WangxinlicaiThread()
+        self.thread_wxlc.setAccountList(self.account_list_wxlc)
+        self.thread_wxlc.setInvestDaysIsShuhui(investDays, isShuhui)
+        self.thread_wxlc.signal_wxlc.connect(self.add_status_for_wxlc)
+        self.thread_wxlc.signal_finished_wxlc.connect(self.change_button_wxlc)
+        self.thread_wxlc.start()
+
+    def add_status_for_wxlc(self, line_ptr, status):
+        ptr = 0
+        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_wxlc)
+        while it.value():
+            if ptr == line_ptr:
+                it.value().setText(2, status)
+            ptr += 1
+            it += 1
+            
+    def change_button_wxlc(self):
+        self.change_all_button_status_wxlc(True)
+      
 
 # 主函数    
 if __name__ == "__main__":
