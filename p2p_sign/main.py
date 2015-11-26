@@ -370,6 +370,9 @@ class MyForm(QtGui.QMainWindow):
             ptr += 1
             it += 1
 
+    def change_button_mxd(self):
+        self.ui.pushButton_mxd.setText("签到完毕".decode('gbk'))
+
     # 网信理财投标
     def exec_sign_wxlc_7(self):
         self.change_all_button_status_wxlc(False)
@@ -412,6 +415,8 @@ class MyForm(QtGui.QMainWindow):
         self.ui.pushButton_wxlc_15.setEnabled(status)
         self.ui.pushButton_wxlc_30.setEnabled(status)
         self.ui.pushButton_wxlc_shuhui.setEnabled(status)
+        if status == False:
+            self.clear_status_for_wxlc()
 
     def exec_sign_wxlc(self, investDays, isShuhui):
         self.thread_wxlc = WangxinlicaiThread()
@@ -430,6 +435,12 @@ class MyForm(QtGui.QMainWindow):
             ptr += 1
             it += 1
             
+    def clear_status_for_wxlc(self):
+        it = QtGui.QTreeWidgetItemIterator(self.ui.treeWidget_wxlc)
+        while it.value():
+            it.value().setText(2, '')
+            it += 1
+  
     def change_button_wxlc(self):
         self.change_all_button_status_wxlc(True)
       

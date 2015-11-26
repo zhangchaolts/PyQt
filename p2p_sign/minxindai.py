@@ -107,7 +107,7 @@ def sign(username, password):
 	lottery_response = opener.open(lottery_request).read().decode('unicode_escape').encode('gb18030')
 	print lottery_response
 
-	result3 = "未抽中实物奖品。"
+	result3 = "未抽中实物奖品或现金。"
 
 	ptr = 0
 	while lottery_response.find("您的积分不足") == -1 and lottery_response.find("今天的抽奖次数已用完") == -1 and ptr < 10:
