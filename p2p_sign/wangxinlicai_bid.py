@@ -117,7 +117,7 @@ def get_invest_days_id(html):
 		return (10, id_10)
 	elif id_15 != '':
 		return (15, id_15)
-	elif id_15 != '':
+	elif id_30 != '':
 		return (30, id_30)
 
 	return (0, '')
@@ -162,7 +162,7 @@ def bid(username, password, bid_days, is_shuhui):
 						#"Accept-Encoding" : "gzip, deflate", \
 						"Accept-Language" : "zh-CN,zh;q=0.8", \
 						"Connection" : "keep-alive", \
-						"Content-Length" : "36", \
+						#"Content-Length" : "36", \
 						"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8", \
 						"Host" : "www.firstp2p.com", \
 						"Origin" : "https://www.firstp2p.com", \
@@ -197,7 +197,7 @@ def bid(username, password, bid_days, is_shuhui):
 						"Accept-Language" : "zh-CN,zh;q=0.8", \
 						"Cache-Control " : "max-age=0", \
 						"Connection" : "keep-alive", \
-						"Content-Length" : "133", \
+						#"Content-Length" : "133", \
 						"Content-Type" : "application/x-www-form-urlencoded", \
 						"Host" : "www.firstp2p.com", \
 						"Origin" : "https://www.firstp2p.com", \
@@ -260,7 +260,7 @@ def bid(username, password, bid_days, is_shuhui):
 									#"Accept-Encoding" : "gzip, deflate", \
 									"Accept-Language" : "zh-CN,zh;q=0.8", \
 									"Connection" : "keep-alive", \
-									"Content-Length" : "11", \
+									#"Content-Length" : "11", \
 									"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8", \
 									"Host" : "www.firstp2p.com", \
 									"Origin" : "https://www.firstp2p.com", \
