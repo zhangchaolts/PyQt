@@ -314,12 +314,12 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>91</width>
+       <width>111</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>投标(小于7天)</string>
+      <string>投标(小于等于7天)</string>
      </property>
     </widget>
     <widget class="QTreeWidget" name="treeWidget_wxlc">
@@ -350,40 +350,40 @@
     <widget class="QPushButton" name="pushButton_wxlc_10">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>130</x>
        <y>10</y>
-       <width>91</width>
+       <width>121</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>投标(小于10天)</string>
+      <string>投标(小于等于10天)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_wxlc_15">
      <property name="geometry">
       <rect>
-       <x>210</x>
+       <x>260</x>
        <y>10</y>
-       <width>91</width>
+       <width>121</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>投标(小于15天)</string>
+      <string>投标(小于等于15天)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_wxlc_30">
      <property name="geometry">
       <rect>
-       <x>310</x>
+       <x>390</x>
        <y>10</y>
-       <width>91</width>
+       <width>121</width>
        <height>23</height>
       </rect>
      </property>
      <property name="text">
-      <string>投标(小于30天)</string>
+      <string>投标(小于等于30天)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_wxlc_shuhui">
