@@ -87,7 +87,7 @@ def get_invest_days_id(html):
 			continue
 		#print 'qixian:' + qixian
 
-		if qixian.find('7~') != 0 and qixian != '10' and qixian != '15':
+		if qixian.find('7~') != 0 and qixian != '7' and qixian != '10' and qixian != '15' and qixian != '30':
 			buf = buf[item_end_pos + len('<divclass="product_btn">'):]
 			continue
 
@@ -100,7 +100,7 @@ def get_invest_days_id(html):
 
 		id = get_content_from_html('href="/deal/(.*?)"target=', item_html)
 		if id != '':
-			if qixian.find('7~') != -1:
+			if qixian.find('7~') != -1 or qixian == '7':
 				id_7 = id
 			if qixian == '10':
 				id_10 = id	
