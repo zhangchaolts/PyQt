@@ -6,6 +6,7 @@ import cookielib
 import re
 import time,datetime
 import string
+import socket
 
 class RedirectHandler(urllib2.HTTPRedirectHandler):
 	def http_error_301(self, req, fp, code, msg, headers):
@@ -125,6 +126,8 @@ def get_invest_days_id(html):
 
 def bid(username, password, bid_days, is_shuhui):
 
+	socket.setdefaulttimeout(30.0)
+
 	# 获取Cookiejar对象（存在本机的cookie消息）
 	cj = cookielib.CookieJar()
 	# 自定义opener,并将opener跟CookieJar对象绑定
@@ -208,10 +211,9 @@ def bid(username, password, bid_days, is_shuhui):
 
 	login_request_2 = urllib2.Request(login_url_2, login_post_data_2, login_headers_2)
 	try:
-		login_response_2 = opener.open(login_request_2).read().decode('utf8').encode('gb18030')
+		login_response_2 = opener.open(login_request_2, timeout=30).read().decode('utf8').encode('gb18030')
 	except urllib2.URLError, e:
-		e.hdrs['LogId']
-		#print e.hdrs['LogId']
+		print 'LogId:' + e.hdrs['LogId']
 
 	home_url = "http://www.firstp2p.com/account"
 	home_request = urllib2.Request(home_url)
