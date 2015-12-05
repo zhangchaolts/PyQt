@@ -228,6 +228,10 @@ class MyForm(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.pushButton_wxlc_30, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_30)
         QtCore.QObject.connect(self.ui.pushButton_wxlc_shuhui, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_shuhui)
 
+        # 固金所不可用
+        self.ui.pushButton_gjs.setText("暂不可用".decode('gbk'))
+        self.ui.pushButton_gjs.setEnabled(False)
+
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
         timestamp_expired_date = time.mktime(datetime.datetime.strptime("2015-12-31 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())

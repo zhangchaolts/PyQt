@@ -164,7 +164,7 @@ def bid(username, password, bid_days, is_shuhui):
 	login_headers_1 = { "Accept" : "application/json, text/javascript, */*; q=0.01", \
 						#"Accept-Encoding" : "gzip, deflate", \
 						"Accept-Language" : "zh-CN,zh;q=0.8", \
-						"Connection" : "keep-alive", \
+						#"Connection" : "keep-alive", \
 						#"Content-Length" : "36", \
 						"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8", \
 						"Host" : "www.firstp2p.com", \
@@ -199,7 +199,7 @@ def bid(username, password, bid_days, is_shuhui):
 	login_headers_2 = { "Accept" : "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8", \
 						"Accept-Language" : "zh-CN,zh;q=0.8", \
 						"Cache-Control " : "max-age=0", \
-						"Connection" : "keep-alive", \
+						#"Connection" : "keep-alive", \
 						#"Content-Length" : "133", \
 						"Content-Type" : "application/x-www-form-urlencoded", \
 						"Host" : "www.firstp2p.com", \
@@ -261,7 +261,7 @@ def bid(username, password, bid_days, is_shuhui):
 			shuhui_headers_2 = {	"Accept" : "*/*", \
 									#"Accept-Encoding" : "gzip, deflate", \
 									"Accept-Language" : "zh-CN,zh;q=0.8", \
-									"Connection" : "keep-alive", \
+									#"Connection" : "keep-alive", \
 									#"Content-Length" : "11", \
 									"Content-Type" : "application/x-www-form-urlencoded; charset=UTF-8", \
 									"Host" : "www.firstp2p.com", \
@@ -321,6 +321,7 @@ def bid(username, password, bid_days, is_shuhui):
 
 	# 检查可用余额
 	money = get_content_from_html('可用余额：</th><td><emclass="color-yellow1">(.*?)&nbsp</em>元', home_html)
+	money = money.replace(',', '')
 	print 'money:' + money
 	if string.atof(money) < 100.0:
 		result = "可用余额小于100.0元！"
