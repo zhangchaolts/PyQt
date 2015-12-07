@@ -118,7 +118,6 @@ def sign(username, password):
 		result2 = "×Üºì°üÎª" + totalPopularity + "¡£"
 
 	result = result1 + result2
-	print username + " " + result
 	return result
 
 

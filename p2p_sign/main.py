@@ -45,11 +45,13 @@ class GujinsuoThread(QtCore.QThread):
         self.accountList = accountList
     
     def run(self):
-        for i in xrange(len(self.accountList)):
-            self.signal_gjs.emit(i, '签到中...'.decode('gbk'))
-        status_list = gujinsuo.sign_all(self.accountList)
-        for i in xrange(len(status_list)):
-            self.signal_gjs.emit(i, status_list[i].decode('gbk'))
+        line_ptr = 0
+        for [username,password] in self.accountList:
+            self.signal_gjs.emit(line_ptr, '签到中...'.decode('gbk'))
+            status = gujinsuo.sign(username, password)
+            status = status.decode('gbk')
+            self.signal_gjs.emit(line_ptr, status)
+            line_ptr += 1
         self.signal_finished_gjs.emit()
 
 # 有融网签到线程类
@@ -229,8 +231,8 @@ class MyForm(QtGui.QMainWindow):
         QtCore.QObject.connect(self.ui.pushButton_wxlc_shuhui, QtCore.SIGNAL("clicked()"), self.exec_sign_wxlc_shuhui)
 
         # 固金所不可用
-        self.ui.pushButton_gjs.setText("暂不可用".decode('gbk'))
-        self.ui.pushButton_gjs.setEnabled(False)
+        #self.ui.pushButton_gjs.setText("暂不可用".decode('gbk'))
+        #self.ui.pushButton_gjs.setEnabled(False)
 
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
