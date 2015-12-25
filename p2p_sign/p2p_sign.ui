@@ -81,62 +81,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_gjs">
-    <attribute name="title">
-     <string>固金所</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_gjs">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>75</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>签到</string>
-     </property>
-    </widget>
-    <widget class="QTreeWidget" name="treeWidget_gjs">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>681</width>
-       <height>271</height>
-      </rect>
-     </property>
-     <column>
-      <property name="text">
-       <string>账号</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>密码</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>状态</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QLabel" name="label_gjs">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>431</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
    <widget class="QWidget" name="tab_yrw">
     <attribute name="title">
      <string>有融网</string>
@@ -249,36 +193,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_mxd">
+   <widget class="QWidget" name="tab_gjs">
     <attribute name="title">
-     <string>民信贷</string>
+     <string>固金所</string>
     </attribute>
-    <widget class="QTreeWidget" name="treeWidget_mxd">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>40</y>
-       <width>681</width>
-       <height>271</height>
-      </rect>
-     </property>
-     <column>
-      <property name="text">
-       <string>账号</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>密码</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>状态</string>
-      </property>
-     </column>
-    </widget>
-    <widget class="QPushButton" name="pushButton_mxd">
+    <widget class="QPushButton" name="pushButton_gjs">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -291,38 +210,7 @@
       <string>签到</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_mxd">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>10</y>
-       <width>431</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="tab_wxlc">
-    <attribute name="title">
-     <string>网信理财</string>
-    </attribute>
-    <widget class="QPushButton" name="pushButton_wxlc_7">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>投标(小于等于7天)</string>
-     </property>
-    </widget>
-    <widget class="QTreeWidget" name="treeWidget_wxlc">
+    <widget class="QTreeWidget" name="treeWidget_gjs">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -347,56 +235,17 @@
       </property>
      </column>
     </widget>
-    <widget class="QPushButton" name="pushButton_wxlc_10">
+    <widget class="QLabel" name="label_gjs">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>140</x>
        <y>10</y>
-       <width>121</width>
-       <height>23</height>
+       <width>431</width>
+       <height>20</height>
       </rect>
      </property>
      <property name="text">
-      <string>投标(小于等于10天)</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_wxlc_15">
-     <property name="geometry">
-      <rect>
-       <x>260</x>
-       <y>10</y>
-       <width>121</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>投标(小于等于15天)</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_wxlc_30">
-     <property name="geometry">
-      <rect>
-       <x>390</x>
-       <y>10</y>
-       <width>121</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>投标(小于等于30天)</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_wxlc_shuhui">
-     <property name="geometry">
-      <rect>
-       <x>590</x>
-       <y>10</y>
-       <width>91</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>赎回通知贷</string>
+      <string/>
      </property>
     </widget>
    </widget>
