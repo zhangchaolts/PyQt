@@ -11,6 +11,9 @@ import minxindai
 import jinronggongchang
 import wangxinlicai_bid
 import multiprocessing
+import ssl 
+
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # 当天金融签到线程类
 class DangtianjinrongThread(QtCore.QThread):
@@ -164,7 +167,7 @@ class MyForm(QtGui.QMainWindow):
 
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
-        timestamp_expired_date = time.mktime(datetime.datetime.strptime("2016-02-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
+        timestamp_expired_date = time.mktime(datetime.datetime.strptime("2016-03-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
         if timestamp_now_date >= timestamp_expired_date:
             self.ui.pushButton_dtjr.setEnabled(False)
             self.ui.pushButton_gjs.setEnabled(False)
