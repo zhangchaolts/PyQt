@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>奔跑吧，羊毛</string>
+   <string>P2P签到软件 - Kevin</string>
   </property>
   <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
@@ -68,6 +68,62 @@
      </column>
     </widget>
     <widget class="QLabel" name="label_dtjr">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>10</y>
+       <width>431</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_gjs">
+    <attribute name="title">
+     <string>固金所</string>
+    </attribute>
+    <widget class="QPushButton" name="pushButton_gjs">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>75</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>签到</string>
+     </property>
+    </widget>
+    <widget class="QTreeWidget" name="treeWidget_gjs">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>40</y>
+       <width>681</width>
+       <height>271</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>账号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>密码</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>状态</string>
+      </property>
+     </column>
+    </widget>
+    <widget class="QLabel" name="label_gjs">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -193,11 +249,11 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="tab_gjs">
+   <widget class="QWidget" name="tab_hrd">
     <attribute name="title">
-     <string>固金所</string>
+     <string>惠人贷</string>
     </attribute>
-    <widget class="QPushButton" name="pushButton_gjs">
+    <widget class="QPushButton" name="pushButton_hrd">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -210,7 +266,7 @@
       <string>签到</string>
      </property>
     </widget>
-    <widget class="QTreeWidget" name="treeWidget_gjs">
+    <widget class="QTreeWidget" name="treeWidget_hrd">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -235,7 +291,7 @@
       </property>
      </column>
     </widget>
-    <widget class="QLabel" name="label_gjs">
+    <widget class="QLabel" name="label_hrd">
      <property name="geometry">
       <rect>
        <x>140</x>
