@@ -72,11 +72,13 @@ class YourongwangThread(QtCore.QThread):
         self.accountList = accountList
     
     def run(self):
-        for i in xrange(len(self.accountList)):
-            self.signal_yrw.emit(i, '签到中...'.decode('gbk'))
-        status_list = yourongwang.sign_all(self.accountList)
-        for i in xrange(len(status_list)):
-            self.signal_yrw.emit(i, status_list[i].decode('gbk'))
+        line_ptr = 0
+        for [username,password] in self.accountList:
+            self.signal_yrw.emit(line_ptr, '签到中...'.decode('gbk'))
+            status = yourongwang.sign(username, password)
+            status = status.decode('gbk')
+            self.signal_yrw.emit(line_ptr, status)
+            line_ptr += 1
         self.signal_finished_yrw.emit()
 
 # 金融工场签到线程类
@@ -92,11 +94,13 @@ class JinronggongchangThread(QtCore.QThread):
         self.accountList = accountList
     
     def run(self):
-        for i in xrange(len(self.accountList)):
-            self.signal_jrgc.emit(i, '签到中...'.decode('gbk'))
-        status_list = jinronggongchang.sign_all(self.accountList)
-        for i in xrange(len(status_list)):
-            self.signal_jrgc.emit(i, status_list[i].decode('gbk'))
+        line_ptr = 0
+        for [username,password] in self.accountList:
+            self.signal_jrgc.emit(line_ptr, '签到中...'.decode('gbk'))
+            status = jinronggongchang.sign(username, password)
+            status = status.decode('gbk')
+            self.signal_jrgc.emit(line_ptr, status)
+            line_ptr += 1
         self.signal_finished_jrgc.emit()
 
 # 惠人贷签到线程类
@@ -112,11 +116,13 @@ class HuirendaiThread(QtCore.QThread):
         self.accountList = accountList
     
     def run(self):
-        for i in xrange(len(self.accountList)):
-            self.signal_hrd.emit(i, '签到中...'.decode('gbk'))
-        status_list = huirendai.sign_all(self.accountList)
-        for i in xrange(len(status_list)):
-            self.signal_hrd.emit(i, status_list[i].decode('gbk'))
+        line_ptr = 0
+        for [username,password] in self.accountList:
+            self.signal_hrd.emit(line_ptr, '签到中...'.decode('gbk'))
+            status = huirendai.sign(username, password)
+            status = status.decode('gbk')
+            self.signal_hrd.emit(line_ptr, status)
+            line_ptr += 1
         self.signal_finished_hrd.emit()
 
 # 主框架

@@ -7,9 +7,8 @@ import cookielib
 import re
 import time,datetime
 import string
-import multiprocessing
 
-def sign(queue, line_ptr, username, password):
+def sign(username, password):
 
 	# 获取Cookiejar对象（存在本机的cookie消息）
 	cj = cookielib.CookieJar()
@@ -17,8 +16,6 @@ def sign(queue, line_ptr, username, password):
 	opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
 	# 安装opener,此后调用urlopen()时都会使用安装过的opener对象
 	urllib2.install_opener(opener)
-
-	print username + " start ..."
 
 	# Step1:登录
 	login_url = "http://m.huirendai.com/user/login"
@@ -46,9 +43,7 @@ def sign(queue, line_ptr, username, password):
 	#print login_response
 	
 	if login_response.find('您好，') == -1:
-		result = "登录失败！"
-		queue.put(str(line_ptr) + " " + result)
-		return
+		return "登录失败！"
 
 	# Step2:签到
 	sign_url = "http://m.huirendai.com/account/signin"
@@ -89,35 +84,10 @@ def sign(queue, line_ptr, username, password):
 		totalPopularity = home_anwser.group(1)
 		result2 = "总惠米为" + totalPopularity + "。"
 	else:
-		print "no"
+		print ""
 
 	result = result1 + result2
-
-	print username + " " + result
-	queue.put(str(line_ptr) + " " + result)
-	return
-
-
-def get_status_list(queue):
-	status_list = [None] * queue.qsize()
-	while queue.empty() != True:
-		parts = queue.get().split(" ")
-		if len(parts) == 2:
-			ptr = string.atoi(parts[0])
-			status_list[ptr] = parts[1]
-	return status_list
-
-
-def sign_all(account_list):
-	queue = multiprocessing.Queue()
-	jobs = []
-	for i in xrange(len(account_list)):
-		job = multiprocessing.Process(target=sign, args=(queue, i, account_list[i][0], account_list[i][1]))
-		jobs.append(job)
-		job.start()
-	for job in jobs:
-		job.join()
-	return get_status_list(queue)
+	return result
 
 
 if __name__ == '__main__':
@@ -132,10 +102,7 @@ if __name__ == '__main__':
 		line = line.strip()
 		parts = line.split(" ")
 		if len(parts) == 2:
-			account_list.append([parts[0], parts[1]])
+			result = sign(parts[0], parts[1])
+			print parts[0] + ":" + result
 
-	status_list = sign_all(account_list)
-
-	for status in status_list:
-		print status.encode('gbk')
 
