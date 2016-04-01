@@ -204,7 +204,7 @@ class MyForm(QtGui.QMainWindow):
 
         # 判断程序是否过期
         timestamp_now_date = time.mktime(datetime.datetime.now().timetuple())
-        timestamp_expired_date = time.mktime(datetime.datetime.strptime("2016-04-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
+        timestamp_expired_date = time.mktime(datetime.datetime.strptime("2016-05-01 00:00:00", '%Y-%m-%d %H:%M:%S').timetuple())
         if timestamp_now_date >= timestamp_expired_date:
             self.ui.pushButton_dtjr.setEnabled(False)
             self.ui.pushButton_gjs.setEnabled(False)
